@@ -9,7 +9,6 @@ app.use("*", cors());
 app.use("*", logger());
 app.get("/", (c) => c.json(healthResponse(API_CONFIG.name)));
 app.get("/health", (c) => c.json({ status: "ok", timestamp: Date.now() }));
-registerRoutes(app);
 async function setupPayments() {
   try {
     const { paymentMiddleware, x402ResourceServer } = await import("@x402/hono");
@@ -22,5 +21,7 @@ async function setupPayments() {
   } catch (e: any) { console.warn("[x402] FREE mode:", e.message); }
 }
 await setupPayments();
+
+registerRoutes(app);
 Bun.serve({ fetch: app.fetch, port: parseInt(process.env.PORT || "3000", 10) });
 console.log("[server] Listening on port " + (process.env.PORT || "3000"));
