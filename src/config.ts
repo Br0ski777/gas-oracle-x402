@@ -37,6 +37,57 @@ Do NOT use for swap quotes -- use dex_get_swap_quote instead. Do NOT use for wal
           },
         },
       },
+      outputSchema: {
+          "type": "object",
+          "properties": {
+            "chain": {
+              "type": "string",
+              "description": "Chain queried"
+            },
+            "baseFeeGwei": {
+              "type": "number",
+              "description": "Base fee in Gwei"
+            },
+            "priorityFeeGwei": {
+              "type": "object",
+              "properties": {
+                "slow": {
+                  "type": "number"
+                },
+                "standard": {
+                  "type": "number"
+                },
+                "fast": {
+                  "type": "number"
+                },
+                "instant": {
+                  "type": "number"
+                }
+              }
+            },
+            "gasPriceGwei": {
+              "type": "number",
+              "description": "Legacy gas price in Gwei"
+            },
+            "estimatedCostUsd": {
+              "type": "object",
+              "description": "Estimated costs for common operations"
+            },
+            "ethPriceUsd": {
+              "type": "number",
+              "description": "ETH price in USD"
+            },
+            "congestion": {
+              "type": "string",
+              "description": "Network congestion level"
+            }
+          },
+          "required": [
+            "chain",
+            "baseFeeGwei",
+            "priorityFeeGwei"
+          ]
+        },
     },
   ],
 };
