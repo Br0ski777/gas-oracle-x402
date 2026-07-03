@@ -76,9 +76,9 @@ function getCongestionLevel(baseFeeGwei: number, chain: string): "low" | "medium
 
 // --- Route handler ---
 export function registerRoutes(app: Hono) {
-  app.get("/api/price", async (c) => {
+  async function handlePrice(c: any, params: { chain?: string }) {
     await tryRequirePayment(0.001);
-    const chain = (c.req.query("chain") || "base").toLowerCase();
+    const chain = (params.chain || "base").toLowerCase();
 
     if (!RPC_URLS[chain]) {
       return c.json({ error: `Unsupported chain: ${chain}. Use 'base' or 'ethereum'.` }, 400);
@@ -196,6 +196,19 @@ export function registerRoutes(app: Hono) {
     } catch (e: any) {
       return c.json({ error: "RPC error: " + e.message }, 502);
     }
+  }
+
+  app.get("/api/price", async (c) => {
+    return handlePrice(c, { chain: c.req.query("chain") });
+  });
+
+  // POST mirror of the GET route above -- Bazaar (CDP) only reliably indexes
+  // POST payments with valid payloads (~82% conversion vs ~14% for GET-only
+  // resources, confirmed empirically). Same params, same logic, just body
+  // instead of query string.
+  app.post("/api/price", async (c) => {
+    const body = await c.req.json().catch(() => ({}) as any);
+    return handlePrice(c, { chain: body.chain });
   });
 }
 
