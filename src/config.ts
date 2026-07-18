@@ -9,7 +9,7 @@ export const API_CONFIG: ApiConfig = {
     {
       method: "GET",
       path: "/api/price",
-      price: "$0.001",
+      price: "$0.003",
       description: "Get current gas prices with slow/standard/fast/instant tiers",
       toolName: "gas_get_current_price",
       toolDescription: `Use this when you need current gas prices before submitting a transaction. Returns gas tiers and USD cost estimates in JSON.
@@ -92,7 +92,7 @@ Do NOT use for swap quotes -- use dex_get_swap_quote instead. Do NOT use for wal
     {
       method: "POST",
       path: "/api/price",
-      price: "$0.001",
+      price: "$0.003",
       description: "Get current gas prices with slow/standard/fast/instant tiers (POST variant)",
       toolName: "gas_get_current_price",
       toolDescription: `Use this when you need current gas prices before submitting a transaction. Returns gas tiers and USD cost estimates in JSON. POST variant of gas_get_current_price -- same params passed as JSON body instead of query string.
